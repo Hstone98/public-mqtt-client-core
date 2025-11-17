@@ -9,7 +9,9 @@ import org.eclipse.paho.mqttv5.common.MqttException;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
 //------------------------------------------------------------------------------------------------//
-//
+// Client Class 
+// - Only for MqttClient 
+// - This class is used to connect to the MQTT broker and publish messages or subscribe to topics
 //------------------------------------------------------------------------------------------------//
 public class Client implements MqttCallback 
 {
@@ -23,25 +25,51 @@ public class Client implements MqttCallback
     private boolean isConnected;
     private MqttConnectionOptions mqttConnectOptions;
     //--------------------------------------------------------------------------------------------//
-    // Constructor
+    //
     //--------------------------------------------------------------------------------------------//
-    public Client(String brokerUrl, String clientId, String username, String password, String topic, int qos) {
+    public Client() { }
+    //--------------------------------------------------------------------------------------------//
+    // 
+    //--------------------------------------------------------------------------------------------//
+    public void build(String brokerUrl, String clientId, String username, String password
+                    , MqttConnectionOptions mqttConnectOptions) 
+    {
         this.brokerUrl = brokerUrl;
         this.clientId = clientId;
         this.username = username;
         this.password = password;
-        this.topic = topic;
-        this.qos = qos;
+        // setTopic(topic);
+        // setQos(qos);
+        this.mqttConnectOptions = mqttConnectOptions;
     }
-
+    //--------------------------------------------------------------------------------------------//
+    // Setters for Topic and QoS / Other Options (Not Changed.)
+    //--------------------------------------------------------------------------------------------//
+    public void setTopic(String topic) {this.topic = topic; }
+    
+    public void setQos(int qos) {this.qos = qos; }
     //--------------------------------------------------------------------------------------------//
     // Connect
     //--------------------------------------------------------------------------------------------//
-    public void connect() throws MqttException {
+    public void connect() throws MqttException 
+    {
         mqttClient = new MqttClient(brokerUrl, clientId);
         mqttClient.connect(new MqttConnectionOptions());
     }
-
+    //--------------------------------------------------------------------------------------------//
+    // Disconnect
+    //--------------------------------------------------------------------------------------------//
+    public void disconnect() throws MqttException 
+    {
+        mqttClient.disconnect();
+    }
+    //--------------------------------------------------------------------------------------------//
+    // Publish
+    //--------------------------------------------------------------------------------------------//
+    public void publish(String message) throws MqttException 
+    {
+        mqttClient.publish(topic, message.getBytes(), qos, false);
+    }
     //--------------------------------------------------------------------------------------------//
     // Message Arrived
     //--------------------------------------------------------------------------------------------//
