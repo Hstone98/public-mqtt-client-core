@@ -1,6 +1,6 @@
 ## 🚀 public-mqtt-client-core
 
-`mqtt-core-java`는 두 가지 핵심 작동 모드를 지원하는 MQTT Java 라이브러리입니다.
+`public-mqtt-client-core`는 두 가지 핵심 작동 모드를 지원하는 MQTT Java 라이브러리입니다.
 
 ### 1. Normal Mode (프로토콜 변환)
 * **Protocol Conversion (MQTT <-> RESTful API)**
